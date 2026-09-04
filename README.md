@@ -14,6 +14,29 @@ Aplicação desenvolvida para realizar a conciliação de relatórios de vendas 
 
 ---
 
+## 🔍 Parâmetros de Conciliação Automática
+
+Para que o cruzamento automático ocorra com sucesso, o sistema analisa e compara colunas específicas de cada relatório.
+
+### Relatório do Sistema (Praxio Luna)
+O sistema busca as chaves de identificação geradas no momento da venda:
+* **`Nsu`**: Código NSU registrado na transação.
+* **`Autorizacao`**: Código de autorização do pagamento.
+
+### Extrato do Banco (Banco do Brasil)
+O sistema lê os identificadores oficiais do arquivo bancário:
+* **`idOperacao`**: Identificador principal da operação no extrato.
+* **`txId`**: Identificador exclusivo do Pix (Transaction ID).
+
+### Regra de Match (Pareamento)
+O vínculo automático é confirmado apenas quando as duas condições abaixo são atendidas simultaneamente:
+1. O campo **`idOperacao`** do extrato bancário inicia com o código **`Nsu`** registrado no sistema.
+2. O campo **`txId`** do extrato bancário inicia com o código de **`Autorizacao`** registrado no sistema.
+
+> *Nota: Os campos de Data e Valor também são extraídos, mas são utilizados exclusivamente para gerar os cards da interface e alimentar o algoritmo de sugestão da conciliação manual.*
+
+---
+
 ## 🛠️ Bibliotecas Utilizadas
 
 O projeto foi construído em Python 3.12 e utiliza as seguintes bibliotecas:
